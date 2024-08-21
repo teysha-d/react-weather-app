@@ -10,7 +10,6 @@ export default function Weather(props) {
 
   useEffect(() => {
     search();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleResponse(response) {
