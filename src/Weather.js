@@ -11,12 +11,12 @@ export default function Weather() {
     {
       label: "ºC",
       value: "celcius",
-      selectedBackgroundColor: "#132676",
+      selectedBackgroundColor: "#9b9c9e",
     },
     {
       label: "ºF",
       value: "fahrenheit",
-      selectedBackgroundColor: "#132676",
+      selectedBackgroundColor: "#9b9c9e",
     },
   ];
 
@@ -87,7 +87,6 @@ export default function Weather() {
               />
             </div>
           </div>
-
           <div className="d-flex justify-content-end mt-3">
             <div className="UnitSwitch" style={{ width: 90, height: 30 }}>
               <SwitchSelector
@@ -100,6 +99,8 @@ export default function Weather() {
             </div>
           </div>
         </form>
+
+        <hr />
 
         <WeatherInfo data={weatherData} unit={unit} />
         <WeatherForecast coord={weatherData.coordinates} unit={unit} />
