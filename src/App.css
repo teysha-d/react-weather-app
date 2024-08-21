@@ -1,16 +1,17 @@
 body {
-  color: black;
+  color: white;
   font-family: "Roboto", sans-serif;
   background-color: white;
 }
 
 .App .container {
-  background-color: #e1eef2;
+  /*background-image: url("../src/images/Sun.png");*/
+  background: linear-gradient(135deg, #0c131e, #233041, #40547a);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   max-width: 700px;
-  height: 777px;
+  height: 900px;
   margin: 60px auto;
   padding: 30px;
   padding-top: 0px;

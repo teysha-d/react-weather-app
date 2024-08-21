@@ -6,7 +6,9 @@ import WeatherTemp from "./WeatherTemp";
 export default function WeatherInfo(props) {
   return (
     <div className="WeatherInfo text-center">
-      <h1>{props.data.city}</h1>
+      <h1>
+        <strong style={{ color: "white" }}>{props.data.city}</strong>
+      </h1>
 
       <div className="mt-3">
         <div className="d-flex justify-content-center mb-3">
@@ -17,14 +19,16 @@ export default function WeatherInfo(props) {
           <WeatherTemp celcius={props.data.temperature} unit={props.unit} />
         </div>
 
-        <div className="mb-3">
+        <div className="flex-container mb-3" style={{ opacity: 0.5 }}>
           <FormattedDate date={props.data.date} />
           <span className="text-capitalize">{props.data.description}</span>
         </div>
 
         <div>
-          <strong>Humidity:</strong> {props.data.humidity}% -{" "}
-          <strong>Wind:</strong> {props.data.wind} Km/h
+          <span style={{ opacity: 0.5 }}>Humidity:</span>{" "}
+          <strong style={{ color: "white" }}>{props.data.humidity}%</strong> -{" "}
+          <span style={{ opacity: 0.5 }}>Wind:</span>{" "}
+          <strong style={{ color: "white" }}>{props.data.wind}Km/h</strong>
         </div>
       </div>
     </div>
