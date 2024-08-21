@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import WeatherInfo from "./WeatherInfo";
 import WeatherForecast from "./WeatherForecast";
 import axios from "axios";
@@ -8,9 +8,21 @@ export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
   const [city, setCity] = useState(props.defaultCity);
 
+  const search = useCallback(() => {
+    const apiKey = "a2dda52dce059eb8a14e95aaa0db6ab7";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    axios
+      .get(apiUrl)
+      .then(handleResponse)
+      .catch((error) => {
+        console.error("Error fetching weather data", error);
+        alert("Unable to fetch weather data. Please try again later.");
+      });
+  }, [city]);
+
   useEffect(() => {
     search();
-  }, []);
+  }, [search]);
 
   function handleResponse(response) {
     setWeatherData({
@@ -33,12 +45,6 @@ export default function Weather(props) {
 
   function handleCityChange(event) {
     setCity(event.target.value);
-  }
-
-  function search() {
-    const apiKey = "a2dda52dce059eb8a14e95aaa0db6ab7";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-    axios.get(apiUrl).then(handleResponse);
   }
 
   if (weatherData.ready) {
