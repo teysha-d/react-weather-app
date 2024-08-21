@@ -1,41 +1,59 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
+import "./Weather.css";
+import axios from "axios";
 import WeatherInfo from "./WeatherInfo";
 import WeatherForecast from "./WeatherForecast";
-import axios from "axios";
-import "./Weather.css";
+import SwitchSelector from "react-switch-selector";
 
-export default function Weather(props) {
+export default function Weather() {
+  const [unit, setUnit] = useState("celcius");
+  const options = [
+    {
+      label: "ºC",
+      value: "celcius",
+      selectedBackgroundColor: "#132676",
+    },
+    {
+      label: "ºF",
+      value: "fahrenheit",
+      selectedBackgroundColor: "#132676",
+    },
+  ];
+
+  const onChange = (newValue) => {
+    console.log(newValue);
+    if (unit === "celcius") {
+      setUnit("fahrenheit");
+    } else {
+      setUnit("celcius");
+    }
+  };
+
+  const initialSelectedIndex = options.findIndex(
+    ({ value }) => value === "celcius"
+  );
+
   const [weatherData, setWeatherData] = useState({ ready: false });
-  const [city, setCity] = useState(props.defaultCity);
-
-  const search = useCallback(() => {
-    const apiKey = "50c2acd53349fabd54f52b93c8650d37";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-    axios
-      .get(apiUrl)
-      .then(handleResponse)
-      .catch((error) => {
-        console.error("Error fetching weather data", error);
-        alert("Unable to fetch weather data. Please try again later.");
-      });
-  }, [city]);
-
-  useEffect(() => {
-    search();
-  }, [search]);
-
+  const [city, setCity] = useState("Round Rock");
   function handleResponse(response) {
     setWeatherData({
       ready: true,
-      coordinates: response.data.coord,
       temperature: response.data.main.temp,
       humidity: response.data.main.humidity,
+      wind: response.data.wind.speed,
+      realFeal: response.data.main.feels_like,
+      city: response.data.name,
       date: new Date(response.data.dt * 1000),
       description: response.data.weather[0].description,
       icon: response.data.weather[0].icon,
-      wind: response.data.wind.speed,
-      city: response.data.name,
+      coordinates: response.data.coord,
     });
+  }
+
+  function search() {
+    let ApiKey = "4b3503b2f08a729413c4d33ef1186004";
+    let ApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${ApiKey}&units=metric`;
+    axios.get(ApiUrl).then(handleResponse);
   }
 
   function handleSubmit(event) {
@@ -43,7 +61,7 @@ export default function Weather(props) {
     search();
   }
 
-  function handleCityChange(event) {
+  function updateCity(event) {
     setCity(event.target.value);
   }
 
@@ -55,10 +73,10 @@ export default function Weather(props) {
             <div className="col-9">
               <input
                 type="search"
-                placeholder="Enter a city.."
-                className="form-control"
+                placeholder="Enter a city..."
                 autoFocus="on"
-                onChange={handleCityChange}
+                className="form-control"
+                onChange={updateCity}
               />
             </div>
             <div className="col-3">
@@ -69,12 +87,25 @@ export default function Weather(props) {
               />
             </div>
           </div>
+
+          <div className="d-flex justify-content-end mt-3">
+            <div className="UnitSwitch" style={{ width: 90, height: 30 }}>
+              <SwitchSelector
+                onChange={onChange}
+                options={options}
+                initialSelectedIndex={initialSelectedIndex}
+                backgroundColor={"#ffffff"}
+                fontColor={"#000000"}
+              />
+            </div>
+          </div>
         </form>
-        <WeatherInfo data={weatherData} />
-        <WeatherForecast coordinates={weatherData.coordinates} />
+        <WeatherInfo data={weatherData} unit={unit} />
+        <WeatherForecast coord={weatherData.coordinates} unit={unit} />
       </div>
     );
   } else {
+    search();
     return "Loading...";
   }
 }
