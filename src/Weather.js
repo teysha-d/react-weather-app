@@ -9,7 +9,7 @@ export default function Weather(props) {
   const [city, setCity] = useState(props.defaultCity);
 
   const search = useCallback(() => {
-    const apiKey = "a2dda52dce059eb8a14e95aaa0db6ab7";
+    const apiKey = "a43ab0c5t7640e69ab4693092fo45cea";
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
     axios
       .get(apiUrl)
