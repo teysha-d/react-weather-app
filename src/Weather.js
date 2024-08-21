@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Weather.css";
 import axios from "axios";
 import WeatherInfo from "./WeatherInfo";
-import WeatherForecast from "./WeatherForecast";
+/*import WeatherForecast from "./WeatherForecast";*/
 import SwitchSelector from "react-switch-selector";
 
 export default function Weather() {
@@ -101,7 +101,7 @@ export default function Weather() {
           </div>
         </form>
         <WeatherInfo data={weatherData} unit={unit} />
-        <WeatherForecast coord={weatherData.coordinates} unit={unit} />
+        {/* <WeatherForecast coord={weatherData.coordinates} unit={unit} /> */}
       </div>
     );
   } else {
